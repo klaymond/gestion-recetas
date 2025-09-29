@@ -7,12 +7,12 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'nueva_receta' %}">Agregar receta</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="{% url 'lista_pacientes' %}">Pacientes</a>
         </li>
       </ul>
+      {% if perms.recetas.add_receta %}
+      <a href="{% url 'nueva_receta' %}" class="btn btn-info" role="button">Nueva receta</a>
+      {% endif %}
     </div>
   </div>
 </nav>

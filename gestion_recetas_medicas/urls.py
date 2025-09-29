@@ -28,4 +28,7 @@ urlpatterns = [
     path(
         "receta/crear", TemplateView.as_view(template_name="base.html"), name="nueva_receta"
     ),
+    path(
+        "pacientes/", TemplateView.as_view(template_name="base.html"), name="lista_pacientes"
+    ),
 ]
