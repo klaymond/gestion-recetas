@@ -51,9 +51,17 @@ class ModeloBase(models.Model):
 class NombreMixin(models.Model):
     nombre = models.CharField(max_length=255)
 
+    class Meta:
+        abstract = True
+
+
 class MedidaUnidadMixin(models.Model):
-    medida = models.DecimalField()
-    unidad = models.ForeignKey(Unidad, on_delete=models.PROTECT)
+    medida = models.DecimalField(max_digits=10, decimal_places=2)
+    unidad = models.ForeignKey("recetas.Unidad", on_delete=models.PROTECT)
+
+    class Meta:
+        abstract = True
+
 
 class Unidad(ModeloBase, NombreMixin):
     abreviacion = models.CharField(max_length=15, verbose_name="Abreviación")
@@ -79,19 +87,27 @@ class Marca(ModeloBase, NombreMixin):
 class Presentacion(ModeloBase, MedidaUnidadMixin):
     marca = models.ForeignKey(Marca, on_delete=models.PROTECT)
     piezas = models.IntegerField()
-    medida = models.DecimalField()
-    unidad = models.ForeignKey(Unidad, on_delete=models.PROTECT)
 
 
 class Receta(ModeloBase):
     medicamentos = models.ManyToManyField(Medicamento, through="MedicamentosReceta")
     paciente = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
 
+
 class MedicamentosReceta(ModeloBase, MedidaUnidadMixin):
     receta = models.ForeignKey(Receta, on_delete=models.PROTECT)
     medicamento = models.ForeignKey(Medicamento, on_delete=models.PROTECT)
     cada = models.PositiveSmallIntegerField()
-    periodicidad_cada = models.ForeignKey(Periodicidad, on_delete=models.PROTECT, verbose_name="Periodicidad")
+    periodicidad_cada = models.ForeignKey(
+        Periodicidad,
+        on_delete=models.PROTECT,
+        verbose_name="Periodicidad",
+        related_name="+",
+    )
     por = models.PositiveSmallIntegerField()
-    periodicidad_por = models.ForeignKey(Periodicidad, on_delete=models.PROTECT, verbose_name="Periodicidad")
-    
+    periodicidad_por = models.ForeignKey(
+        Periodicidad,
+        on_delete=models.PROTECT,
+        verbose_name="Periodicidad",
+        related_name="+",
+    )

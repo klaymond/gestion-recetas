@@ -19,16 +19,18 @@ from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
 
+from recetas.views import CreateRecetaView
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", TemplateView.as_view(template_name="base.html")),
     path(
         "principal/", TemplateView.as_view(template_name="base.html"), name="principal"
     ),
+    path("receta/crear", CreateRecetaView.as_view(), name="nueva_receta"),
     path(
-        "receta/crear", TemplateView.as_view(template_name="base.html"), name="nueva_receta"
-    ),
-    path(
-        "pacientes/", TemplateView.as_view(template_name="base.html"), name="lista_pacientes"
+        "pacientes/",
+        TemplateView.as_view(template_name="base.html"),
+        name="lista_pacientes",
     ),
 ]

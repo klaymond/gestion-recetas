@@ -1,0 +1,12 @@
+{% extends 'form_container.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <h5 class="card-title text-center mb-4">Crea una receta</h5>
+    {% crispy form %}
+
+    {% for formset in inlines %}
+        {% crispy formset %}
+    {% endfor %}
+
+{% endblock content %}
